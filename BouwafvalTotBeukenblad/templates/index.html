@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Survey Questions</h1>
+        <form id="surveyForm">
+            <div class="question">
+                <p>Question 1: Wat is je voornaam?</p>
+                <input type="text" name="q1" required>
+            </div>
+            <div class="question">
+                <p>Question 2: Choose an option:</p>
+                <select name="q2" required>
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                </select>
+            </div>
+            <div class="question">
+                <p>Question 3: Wil je het volgende inspreken: "bla blie bloeperdie gloeperdie bloep"</p>
+                <button type="button" id="startRecordBtn">Start Recording</button>
+                <button type="button" id="stopRecordBtn" disabled>Stop Recording</button>
+                <audio id="audioPlayback" controls></audio>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

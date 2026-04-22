@@ -2,35 +2,159 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Survey App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Survey Questions</h1>
-        <form id="surveyForm">
-            <div class="question">
-                <p>Question 1: Wat is je voornaam?</p>
-                <input type="text" name="q1" required>
-            </div>
-            <div class="question">
-                <p>Question 2: Choose an option:</p>
-                <select name="q2" required>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
-            </div>
-            <div class="question">
-                <p>Question 3: Wil je het volgende inspreken: "bla blie bloeperdie gloeperdie bloep"</p>
-                <button type="button" id="startRecordBtn">Start Recording</button>
-                <button type="button" id="stopRecordBtn" disabled>Stop Recording</button>
-                <audio id="audioPlayback" controls></audio>
-            </div>
-            <button type="submit">Submit</button>
-        </form>
+
+    <!-- ── PROGRESS BAR ── -->
+    <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
     </div>
+
+    <!-- ══════════════════════════════════════
+         PAGE 0 — CONSENT
+    ══════════════════════════════════════ -->
+    <div class="page active" id="page-0">
+        <div class="page-inner consent-page">
+            <div class="consent-icon">📋</div>
+            <h1>Before we begin</h1>
+            <p class="consent-lead">We would like to ask you a few questions. Your responses are stored securely and used only for research purposes.</p>
+
+            <ul class="consent-list">
+                <li>✦ Participation is voluntary</li>
+                <li>✦ You may stop at any time</li>
+                <li>✦ Audio is saved locally and submitted only with your consent</li>
+                <li>✦ No personal data is shared with third parties</li>
+            </ul>
+
+            <button class="btn-primary" onclick="goToPage(1)">
+                I agree &amp; continue
+                <span class="btn-arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PAGE 1 — TEXT INPUT  (voornaam)
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-1">
+        <div class="page-inner">
+            <span class="question-label">Question 1 of 4</span>
+            <h2>Wat is je voornaam?</h2>
+
+            <input
+                class="text-input"
+                type="text"
+                id="q1"
+                name="q1"
+                placeholder="Typ hier je naam…"
+                autocomplete="given-name"
+                inputmode="text"
+                oninput="checkTextInput()"
+            >
+
+            <button class="btn-primary" id="nextBtn1" disabled onclick="goToPage(2)">
+                Volgende <span class="btn-arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PAGE 2 — CHOICE BUTTONS
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-2">
+        <div class="page-inner">
+            <span class="question-label">Question 2 of 4</span>
+            <h2>Hoe ga je vandaag naar je werk?</h2>
+
+            <div class="choice-grid" id="q2-choices">
+                <button class="choice-btn" data-value="auto"       onclick="selectChoice(this, 'q2', 3)">🚗 Auto</button>
+                <button class="choice-btn" data-value="fiets"      onclick="selectChoice(this, 'q2', 3)">🚲 Fiets</button>
+                <button class="choice-btn" data-value="ov"         onclick="selectChoice(this, 'q2', 3)">🚌 OV</button>
+                <button class="choice-btn" data-value="lopen"      onclick="selectChoice(this, 'q2', 3)">🚶 Lopen</button>
+                <button class="choice-btn" data-value="thuis"      onclick="selectChoice(this, 'q2', 3)">🏠 Thuiswerken</button>
+                <button class="choice-btn" data-value="anders"     onclick="selectChoice(this, 'q2', 3)">❓ Anders</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PAGE 3 — YES / NO
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-3">
+        <div class="page-inner">
+            <span class="question-label">Question 3 of 4</span>
+            <h2>Ben je tevreden met je werk?</h2>
+
+            <div class="yesno-grid">
+                <button class="yesno-btn yes" onclick="selectChoice(this, 'q3', 4)">
+                    <span class="yesno-icon">👍</span>
+                    Ja
+                </button>
+                <button class="yesno-btn no" onclick="selectChoice(this, 'q3', 4)">
+                    <span class="yesno-icon">👎</span>
+                    Nee
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PAGE 4 — AUDIO RECORDING
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-4">
+        <div class="page-inner">
+            <span class="question-label">Question 4 of 4</span>
+            <h2>Spreek de volgende zin in:</h2>
+            <blockquote class="quote-text">"bla blie bloeperdie gloeperdie bloep"</blockquote>
+
+            <div class="recorder">
+                <!-- Status ring -->
+                <div class="recorder-ring" id="recorderRing">
+                    <div class="recorder-dot" id="recorderDot"></div>
+                </div>
+                <p class="recorder-status" id="recorderStatus">Druk op de knop om te beginnen</p>
+
+                <div class="recorder-controls">
+                    <button class="btn-record start" id="startRecordBtn" onclick="startRecording()">
+                        ● Start opname
+                    </button>
+                    <button class="btn-record stop" id="stopRecordBtn" onclick="stopRecording()" disabled>
+                        ■ Stop opname
+                    </button>
+                </div>
+
+                <!-- Playback + waveform placeholder -->
+                <div class="audio-playback" id="audioPlaybackSection" style="display:none">
+                    <audio id="audioPlayback" controls></audio>
+                    <p class="audio-hint">Beluister je opname hierboven</p>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="nextBtn4" disabled onclick="submitSurvey()">
+                Versturen <span class="btn-arrow">✓</span>
+            </button>
+            <p class="record-required" id="recordRequired">
+                🎙️ Neem eerst een audio-opname op om door te gaan
+            </p>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PAGE 5 — THANK YOU
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-5">
+        <div class="page-inner center-all">
+            <div class="thankyou-icon">🎉</div>
+            <h1>Bedankt!</h1>
+            <p class="consent-lead">Je antwoorden zijn succesvol opgeslagen. We waarderen je deelname.</p>
+        </div>
+    </div>
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

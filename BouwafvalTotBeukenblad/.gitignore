@@ -1,0 +1,20 @@
+# Folder with recordings
+uploads/
+
+# Logs and databases #
+######################
+*.log
+*.db
+*.sql
+*.sqlite
+
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

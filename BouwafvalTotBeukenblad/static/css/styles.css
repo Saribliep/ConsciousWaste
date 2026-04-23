@@ -5,22 +5,21 @@
 
 /* ── Tokens ── */
 :root {
-    --bg:         #F5F0E8;
-    --surface:    #FEFCF7;
-    --accent:     #2D5016;
-    --accent-lt:  #4A7C2F;
-    --accent-bg:  #EAF2E3;
-    --danger:     #C0392B;
-    --danger-bg:  #FDECEA;
-    --text:       #1A1A1A;
-    --muted:      #6B6560;
+    --bg:         #F5F0E8;   /* page background */
+    --surface:    #FEFCF7;   /* card background */
+    --accent:     #2D5016;   /* main green color (buttons, highlights) */
+    --accent-lt:  #4A7C2F;   /* lighter green (hover states) */
+    --accent-bg:  #EAF2E3;   /* very light green background tint */
+    --danger:     #C0392B;   /* red (No button) */
+    --text:       #1A1A1A;   /* main text color */
+    --muted:      #6B6560;   /* grey helper text */
     --border:     #DDD8CF;
     --radius:     18px;
     --radius-sm:  10px;
     --shadow:     0 4px 24px rgba(0,0,0,.08);
     --trans:      .22s cubic-bezier(.4,0,.2,1);
-    --font-head:  'DM Serif Display', Georgia, serif;
-    --font-body:  'DM Sans', system-ui, sans-serif;
+    --font-head:  'DM Serif Display', Georgia, serif; /* ← headings font */
+    --font-body:  'DM Sans', system-ui, sans-serif; /* ← body font */
 }
 
 /* ── Reset ── */
@@ -125,6 +124,15 @@ p { line-height: 1.65; color: var(--muted); font-size: .95rem; }
     font-weight: 500;
     line-height: 1.4;
 }
+.consent-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: .9rem;
+    cursor: pointer;
+    color: var(--text);
+}
+.consent-check input { margin-top: 3px; width: 18px; height: 18px; }
 
 /* ── Buttons ── */
 .btn-primary {

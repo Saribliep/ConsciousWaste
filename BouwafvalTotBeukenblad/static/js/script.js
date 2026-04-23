@@ -4,7 +4,7 @@
 
 // ── State ──────────────────────────────
 const answers     = {};
-const TOTAL_PAGES = 5; // pages 1-5 (0 = consent)
+const TOTAL_PAGES = 14; // pages 1-14 (0 = consent)
 
 let currentPage   = 0;
 let mediaRecorder = null;
@@ -34,6 +34,11 @@ function updateProgress() {
     const fill = document.getElementById('progressFill');
     const pct  = currentPage === 0 ? 0 : (currentPage / TOTAL_PAGES) * 100;
     fill.style.width = pct + '%';
+}
+
+function toggleConsent() {
+    const checked = document.getElementById('consentBox').checked;
+    document.getElementById('consentBtn').disabled = !checked;
 }
 
 // ── Question 1: text input ─────────────
@@ -73,7 +78,7 @@ async function startRecording() {
 
             document.getElementById('audioPlayback').src             = url;
             document.getElementById('audioPlaybackSection').style.display = 'flex';
-            document.getElementById('nextBtn4').disabled             = false;
+            document.getElementById('nextBtn12').disabled             = false;
 
             // Hide the "you must record first" hint
             const hint = document.getElementById('recordRequired');
@@ -133,7 +138,7 @@ async function submitSurvey() {
     try {
         const res = await fetch('/submit', { method: 'POST', body: formData });
         if (res.ok) {
-            goToPage(5);
+            goToPage(13);
         } else {
             alert('Er is iets misgegaan bij het opslaan. Probeer opnieuw.');
         }

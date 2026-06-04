@@ -123,7 +123,7 @@ function setRecorderUI(isRecording) {
     }
 }
 
-// ── Submit ─────────────────────────────
+// ── Submit + kick off TTS ──────────────
 async function submitSurvey() {
     const formData = new FormData();
 
@@ -135,18 +135,62 @@ async function submitSurvey() {
         formData.append('audio', audioBlob, 'recording.webm');
     }
 
+    // Go to TTS loading page immediately
+    goToPage(13);
+
     try {
-        const res = await fetch('/submit', { method: 'POST', body: formData });
-        if (res.ok) {
-            goToPage(13);
-        } else {
-            alert('Er is iets misgegaan bij het opslaan. Probeer opnieuw.');
-        }
+        const res  = await fetch('/submit', { method: 'POST', body: formData });
+        if (!res.ok) throw new Error('submit failed');
+        const data = await res.json();
+
+        // Poll until the TTS audio is ready
+        const audioUrl = await pollForTTSAudio(data.job_id);
+
+        // Show audio on page 13 and reveal the continue button
+        const player = document.getElementById('ttsAudioPlayer');
+        player.src = audioUrl;
+        player.style.display = 'block';
+        document.getElementById('ttsLoadingMsg').style.display  = 'none';
+        document.getElementById('ttsReadyMsg').style.display    = 'block';
+        document.getElementById('ttsNextBtn').style.display     = 'flex';
+
     } catch (err) {
-        console.error('Submit error:', err);
-        alert('Geen verbinding. Controleer je internet en probeer opnieuw.');
+        console.error('TTS error:', err);
+        document.getElementById('ttsLoadingMsg').textContent =
+            '⚠️ Er ging iets mis bij het genereren van audio. Ga toch door.';
+        document.getElementById('ttsNextBtn').style.display = 'flex';
     }
 }
 
 // ── Init ───────────────────────────────
 updateProgress();
+
+// ── TTS: poll Flask for the generated audio ────────────────────────────────
+async function pollForTTSAudio(jobId) {
+    const maxAttempts = 30; // 30 × 2s = 60s timeout
+    let attempts = 0;
+
+    return new Promise((resolve, reject) => {
+        const interval = setInterval(async () => {
+            attempts++;
+            try {
+                const res  = await fetch('/tts_status/' + jobId);
+                const data = await res.json();
+
+                if (data.status === 'done') {
+                    clearInterval(interval);
+                    resolve(data.audio_url);
+                } else if (data.status === 'error') {
+                    clearInterval(interval);
+                    reject(new Error(data.message || 'TTS mislukt'));
+                } else if (attempts >= maxAttempts) {
+                    clearInterval(interval);
+                    reject(new Error('TTS duurde te lang'));
+                }
+            } catch (err) {
+                clearInterval(interval);
+                reject(err);
+            }
+        }, 2000);
+    });
+}

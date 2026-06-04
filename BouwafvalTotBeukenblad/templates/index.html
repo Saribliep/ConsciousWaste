@@ -59,6 +59,13 @@
                 inputmode="text"
                 oninput="checkTextInput()"
             >
+                        <!-- Pre-recorded audio fragment -->
+            <div class="prerecorded-audio">
+                <p class="audio-label">🔊 Loop nu naar de maquette en luister dan eerst naar dit fragment:</p>
+                <audio controls src="{{ url_for('static', filename='audio/intro_fragment.mp3') }}"></audio>
+                <p class="audio-label"<p><br>Ben je klaar met luisteren? Klik dan op volgende:</p>
+
+            </div>
 
             <button class="btn-primary" id="nextBtn1" disabled onclick="goToPage(2)">
                 Volgende <span class="btn-arrow">→</span>
@@ -77,7 +84,7 @@
             <h3>Wat doe je met de tegels?</h3>
 
             <div class="choice-grid" id="q2-choices">
-                <button class="choice-btn" data-value="tegels weg"       onclick="selectChoice(this, 'q2', 3)"><b>Ik gooi ze weg</b><br>(kost niks)</button>
+                <button class="choice-btn" data-value="tegels weg"       onclick="selectChoice(this, 'q2', 3)"><b>Ik gooi de tegels weg</b><br>(kost niks)</button>
                 <button class="choice-btn" data-value="tegels behouden"      onclick="selectChoice(this, 'q2', 3)"><b>Ik verwijder de tegels zodat ze nog hergebruikt kunnen worden.</b><br>(kost je 8 uur, levert 60 euro op omdat je ze op marktplaats zet).</button>
             </div>
         </div>
@@ -272,8 +279,9 @@
         <div class="page-inner">
             <span class="question-label">Question 12 of 13</span>
             <h2>Spreek de volgende zin in:</h2>
-            <blockquote class="quote-text">"bla blie bloeperdie gloeperdie bloep"</blockquote>
-
+            <blockquote class="quote-text">"Ik liep door de stad en hoorde muziek in de verte. <br> Mensen praatten rustig terwijl het langzaam donker werd. <br> Het voelde vreemd, maar ook vertrouwd."</blockquote>
+            <blockquote class="quote-text">“Gisteren zei je dat je huis dichtbij het oude plein staat, maar ik hoorde iets anders. <br> Misschien klonk het geluid gewoon anders door de ruimte, of sprak je wat zachter dan normaal.<br> Ik vroeg me af of jij dat ook merkt wanneer mensen uit een andere regio praten.<br>Sommige woorden, zoals ‘graag’, ‘zeker’ en ‘buiten’, klinken telkens net een beetje anders.” </blockquote>
+            
             <div class="recorder">
                 <!-- Status ring -->
                 <div class="recorder-ring" id="recorderRing">
@@ -307,13 +315,39 @@
     </div>
     
     <!-- ══════════════════════════════════════
-    PAGE 13 — THANK YOU
+    PAGE 13 — TTS PLAYBACK
     ══════════════════════════════════════ -->
     <div class="page" id="page-13">
         <div class="page-inner center-all">
+            <div class="tts-icon">🎧</div>
+            <h2>Ga nu ergens zitten en luister naar het audiofragment</h2>
+            <p class="consent-lead">Een ogenblik geduld…</p>
+
+            <div class="tts-loading" id="ttsLoadingMsg">
+                <div class="tts-spinner"></div>
+                <p>Audio wordt gegenereerd…</p>
+            </div>
+
+            <p class="tts-ready-msg" id="ttsReadyMsg" style="display:none">
+                ✅ Ga nu ergens zitten en luister naar het audiofragment. Probeer je volledig te focussen op het verhaal en de details in het geluid. Na het luisteren vragen we je om een paar vragen te beantwoorden over wat je gehoord hebt.:
+            </p>
+
+            <audio id="ttsAudioPlayer" controls style="display:none; width:100%;"></audio>
+
+            <button class="btn-primary" id="ttsNextBtn" style="display:none" onclick="goToPage(14)">
+                Doorgaan <span class="btn-arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+    PAGE 14 — THANK YOU
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-14">
+        <div class="page-inner center-all">
             <div class="thankyou-icon">🎉</div>
             <h1>Bedankt!</h1>
-            <p class="consent-lead">Je antwoorden worden nu geanalyseerd. Hou je  We waarderen je deelname.</p>
+            <p class="consent-lead">Dankjewel voor je deelname.</p>
         </div>
     </div>
     

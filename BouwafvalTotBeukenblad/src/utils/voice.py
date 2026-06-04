@@ -13,7 +13,8 @@ voice = client.audio.voices.create(
     sample_audio=sample_audio_b64,
     sample_filename="reference_voice.mp3",
     languages=["nl", "en"],
-    gender="female",
+    gender="fem " \
+    "ale",
 )
 
 print(f"Created voice: {voice.id}")

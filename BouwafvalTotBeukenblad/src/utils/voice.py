@@ -13,8 +13,7 @@ voice = client.audio.voices.create(
     sample_audio=sample_audio_b64,
     sample_filename="reference_voice.mp3",
     languages=["nl", "en"],
-    gender="fem " \
-    "ale",
+    gender="female",
 )
 
 print(f"Created voice: {voice.id}")
@@ -24,5 +23,3 @@ print(f"Languages: {voice.languages}")
 # delete the voice
 result = client.audio.voices.delete(voice_id="your-voice-id")
 print(f"Deleted: {result.id}")
-
-

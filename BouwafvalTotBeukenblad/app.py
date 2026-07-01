@@ -93,18 +93,16 @@ def run_tts(job_id: str, audio_path: str):
             sample_filename=audio_filename,  # helps Mistral detect the format
             languages=["nl"],               # Dutch; add "en" if needed
         )
+        
+        print(f"Creating voice profile for job {job_id} using {audio_filename}")
         voice_id = voice.id
 
         # ── Call Mistral TTS with voice cloning ─────────────────────────────
         # The text to synthesise in the user's cloned voice:
         tts_text = (
-            "Wat een verbetering wordt het als deze muur hier weg is. Ik wil morgen de keuze maken wat ik doe met de tegels in de keuken en het scheiden van mijn bouwafval" 
-            "     "
-            "Ik neig naar mijn tegels niet hergebruiken maar wel mijn afval scheiden." 
-            "     "
-            "Ik kan prima wat extra geld stoppen in het mogelijk maken dat ik mijn afval scheid maar vind het extra tijd wat het hergebruiken van tegels met zich mee brengt te veel."
-            "Ik weet dat recyclen beter is dan het ongescheiden weggooien, maar toch.."
-            "ik vind het ook gewoon heel moeilijk om te verplaatsen in de gevolgen die het heeft wanneer wij allemaal geen milieuvriendelijk gedrag vertonen, zoals recyclen."
+            "Wat een verbetering wordt het als deze muur hier weg is. Ik wil morgen de keuze maken wat ik doe met de tegels in de keuken en het scheiden van mijn bouwafval..." 
+            "Ik neig naar mijn tegels niet hergebruiken maar wel mijn afval scheiden..." 
+            "Ik kan prima wat extra geld stoppen in het mogelijk maken dat ik mijn afval scheid maar vind het extra tijd wat het hergebruiken van tegels met zich mee brengt teveel."
         )
 
         response = client.audio.speech.complete(
@@ -126,8 +124,14 @@ def run_tts(job_id: str, audio_path: str):
             'audio_url': f'/static/tts/{out_filename}'
         }
 
+    # except Exception as e:
+    #     print(f"TTS error for job {job_id}: {e}")
+    #     tts_jobs[job_id] = {'status': 'error', 'message': str(e)}
+
     except Exception as e:
-        print(f"TTS error for job {job_id}: {e}")
+        import traceback
+        print(f"TTS error for job {job_id}:")
+        traceback.print_exc()          # ← prints the full error with line numbers
         tts_jobs[job_id] = {'status': 'error', 'message': str(e)}
 
     finally:

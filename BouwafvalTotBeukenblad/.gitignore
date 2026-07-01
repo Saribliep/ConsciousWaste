@@ -8,6 +8,11 @@ uploads/
 *.sql
 *.sqlite
 
+# Audiofiles and such #
+#######################
+*.webm
+*.mp3
+
 
 # OS generated files #
 ######################

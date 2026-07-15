@@ -46,12 +46,12 @@ def init_db():
                 submitted_at TEXT,
                 q1 TEXT, q2 TEXT, q3 TEXT, q4 TEXT, q5 TEXT,
                 q6 TEXT, q7 TEXT, q8 TEXT, q9 TEXT, q10 TEXT,
-                q11 TEXT, audio_file TEXT, tts_file TEXT
+                q11 TEXT, gender TEXT, audio_file TEXT, tts_file TEXT
             )
         """)
         existing = {row[1] for row in conn.execute("PRAGMA table_info(responses)")}
         for col in ['submitted_at','q1','q2','q3','q4','q5','q6','q7',
-                    'q8','q9','q10','q11','audio_file','tts_file']:
+                    'q8','q9','q10','q11','gender','audio_file','tts_file']:
             if col not in existing:
                 conn.execute(f"ALTER TABLE responses ADD COLUMN {col} TEXT")
         conn.commit()
@@ -61,7 +61,7 @@ init_db()
 
 
 # ── TTS worker (runs in background thread) ──────────────────────────────────
-def run_tts(job_id: str, audio_path: str):
+def run_tts(job_id: str, audio_path: str, gender: str = ''):
     """
     Correct Mistral TTS flow (according to docs.mistral.ai/capabilities/audio/):
 
@@ -87,12 +87,17 @@ def run_tts(job_id: str, audio_path: str):
         audio_filename = os.path.basename(audio_path)  # e.g. recording_....webm
 
         # ── Step 2: create a temporary voice profile ─────────────────────────
-        voice = client.audio.voices.create(
+        _gender_map = {'V': 'female', 'M': 'male', 'N': 'neutral'}
+        voice_kwargs = dict(
             name=f"survey-voice-{job_id[:8]}",
-            sample_audio=audio_b64,          # base64 string ✓
-            sample_filename=audio_filename,  # helps Mistral detect the format
-            languages=["nl"],               # Dutch; add "en" if needed
+            sample_audio=audio_b64,
+            sample_filename=audio_filename,
+            languages=["nl"],
         )
+        if gender in _gender_map:
+            voice_kwargs['gender'] = _gender_map[gender]
+
+        voice = client.audio.voices.create(**voice_kwargs)
         
         print(f"Creating voice profile for job {job_id} using {audio_filename}")
         voice_id = voice.id
@@ -154,6 +159,7 @@ def submit():
     # Collect all question answers
     fields = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11']
     vals   = {f: request.form.get(f, '').strip() for f in fields}
+    gender = request.form.get('gender', '').strip()
 
     # Save user audio
     audio_filename = None
@@ -169,9 +175,9 @@ def submit():
     with get_db() as conn:
         conn.execute(
             f"""INSERT INTO responses
-                (submitted_at, {', '.join(fields)}, audio_file)
-                VALUES (?, {', '.join(['?']*len(fields))}, ?)""",
-            [datetime.utcnow().isoformat()] + [vals[f] for f in fields] + [audio_filename]
+                (submitted_at, {', '.join(fields)}, gender, audio_file)
+                VALUES (?, {', '.join(['?']*len(fields))}, ?, ?)""",
+            [datetime.utcnow().isoformat()] + [vals[f] for f in fields] + [gender, audio_filename]
         )
         conn.commit()
 
@@ -180,7 +186,7 @@ def submit():
     tts_jobs[job_id] = {'status': 'pending'}
 
     if audio_path and MISTRAL_API_KEY:
-        thread = threading.Thread(target=run_tts, args=(job_id, audio_path), daemon=True)
+        thread = threading.Thread(target=run_tts, args=(job_id, audio_path, gender), daemon=True)
         thread.start()
     else:
         # No API key or no audio — mark as error so frontend can still proceed

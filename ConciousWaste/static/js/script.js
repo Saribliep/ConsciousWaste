@@ -4,7 +4,7 @@
 
 // ── State ──────────────────────────────
 const answers     = {};
-const TOTAL_PAGES = 14; // pages 1-14 (0 = consent)
+const TOTAL_PAGES = 15; // pages 1-15 (0 = consent)
 
 let currentPage   = 0;
 let mediaRecorder = null;
@@ -78,7 +78,7 @@ async function startRecording() {
 
             document.getElementById('audioPlayback').src             = url;
             document.getElementById('audioPlaybackSection').style.display = 'flex';
-            document.getElementById('nextBtn12').disabled             = false;
+            document.getElementById('nextBtn13').disabled             = false;
 
             // Hide the "you must record first" hint
             const hint = document.getElementById('recordRequired');
@@ -136,7 +136,7 @@ async function submitSurvey() {
     }
 
     // Go to TTS loading page immediately
-    goToPage(13);
+    goToPage(14);
 
     try {
         const res  = await fetch('/submit', { method: 'POST', body: formData });

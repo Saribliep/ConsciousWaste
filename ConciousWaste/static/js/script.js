@@ -143,16 +143,23 @@ async function submitSurvey() {
         if (!res.ok) throw new Error('submit failed');
         const data = await res.json();
 
-        // Poll until the TTS audio is ready
-        const audioUrl = await pollForTTSAudio(data.job_id);
+        // Poll until the TTS result (audio, or in mock mode the generated text) is ready
+        const result = await pollForTTSAudio(data.job_id);
 
-        // Show audio on page 13 and reveal the continue button
-        const player = document.getElementById('ttsAudioPlayer');
-        player.src = audioUrl;
-        player.style.display = 'block';
-        document.getElementById('ttsLoadingMsg').style.display  = 'none';
+        document.getElementById('ttsLoadingMsg').style.display = 'none';
         document.getElementById('ttsReadyMsg').style.display    = 'block';
         document.getElementById('ttsNextBtn').style.display     = 'flex';
+
+        if (result.audio_url) {
+            const player = document.getElementById('ttsAudioPlayer');
+            player.src = result.audio_url;
+            player.style.display = 'block';
+        } else if (result.text) {
+            // MOCK_TTS mode: no audio was generated — show the text instead
+            const mockText = document.getElementById('ttsMockText');
+            mockText.textContent = result.text;
+            mockText.style.display = 'block';
+        }
 
     } catch (err) {
         console.error('TTS error:', err);
@@ -179,7 +186,7 @@ async function pollForTTSAudio(jobId) {
 
                 if (data.status === 'done') {
                     clearInterval(interval);
-                    resolve(data.audio_url);
+                    resolve(data);
                 } else if (data.status === 'error') {
                     clearInterval(interval);
                     reject(new Error(data.message || 'TTS mislukt'));

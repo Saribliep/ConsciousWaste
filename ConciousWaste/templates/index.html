@@ -148,10 +148,10 @@
             <h2>Vind je dat recyclen moreel gezien het juiste is om te doen?</h2>
 
             <div class="yesno-grid">
-                <button class="yesno-btn yes" onclick="selectChoice(this, 'q5', 7)">
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q5', 7)">
                     Ja
                 </button>
-                <button class="yesno-btn no" onclick="selectChoice(this, 'q5', 7)">
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q5', 7)">
                     Nee
                 </button>
             </div>
@@ -168,10 +168,10 @@
             <h2>Zou jij een milieubewust persoon willen zijn?</h2>
 
             <div class="yesno-grid">
-                <button class="yesno-btn yes" onclick="selectChoice(this, 'q6', 8)">
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q6', 8)">
                     Ja
                 </button>
-                <button class="yesno-btn no" onclick="selectChoice(this, 'q6', 8)">
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q6', 8)">
                     Nee
                 </button>
             </div>
@@ -185,13 +185,11 @@
     <div class="page" id="page-8">
         <div class="page-inner">
             <span class="question-label">Question 8 of 14</span>
-            <h2>Ik zie in dat wanneer wij niet recyclen dit bijdraagt aan verhoogde CO2 uitstoot wat leidt tot klimaatverandering met recente gevolgen voor: </h2>
+            <h2>Ik weet dat wanneer we niet recyclen, dit bijdraagt aan klimaatverandering met gevolgen als extreme droogte en overstromingen, voedsel- en waterschaarste, onleefbare leefomstandigheden en gedwongen massamigratie. </h2>
 
             <div class="choice-grid" id="q7-choices">
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q7', 9)">Nederland: extremere weersomstandigheden, verhoogde kans op ziektes en een toename van migratie. </button>
-                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q7', 9)">Lage- en middeninkomenslanden in Afrika, Azië en Latijns-Amerika: extreme droogte en overstromingen, voedsel- en waterschaarste, onleefbare leefomstandigheden en gedwongen massamigratie.</button>
-                <button class="choice-btn" data-value="c"       onclick="selectChoice(this, 'q7', 9)">Ik zie dit voor beiden niet in</button>
-                <button class="choice-btn" data-value="d"      onclick="selectChoice(this, 'q7', 9)">Ik zie dit voor beiden wel in</button>
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q7', 9)">Ik wist dit niet </button>
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q7', 9)">Ik weet dit wel</button>
             </div>
         </div>
     </div>
@@ -207,12 +205,10 @@
             <h2>Ik maak me zorgen over de gevolgen van klimaatverandering.</h2>
 
             <div class="yesno-grid">
-                <button class="yesno-btn yes" onclick="selectChoice(this, 'q8', 10)">
-                    <!-- <span class="yesno-icon">👍</span> -->
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q8', 10)">
                     Ja
                 </button>
-                <button class="yesno-btn no" onclick="selectChoice(this, 'q8', 10)">
-                    <!-- <span class="yesno-icon">👎</span> -->
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q8', 10)">
                     Nee
                 </button>
             </div>
@@ -230,12 +226,10 @@
             <h2>Als ik niet recycle dan draag ik bij aan de gevolgen die klimaatverandering met zich meebrengt.</h2>
 
             <div class="yesno-grid">
-                <button class="yesno-btn yes" onclick="selectChoice(this, 'q9', 11)">
-                    <!-- <span class="yesno-icon">👍</span> -->
-                    Klopt
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q9', 11)">
+                    Waar
                 </button>
-                <button class="yesno-btn no" onclick="selectChoice(this, 'q9', 11)">
-                    <!-- <span class="yesno-icon">👎</span> -->
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q9', 11)">
                     Niet waar
                 </button>
             </div>
@@ -253,11 +247,10 @@
             <h2>Ondanks dat bedrijven en de politiek verantwoordelijkheid moeten nemen rondom afvalproductie en verwerking, heb ik als individu ook een verantwoordelijkheid om te recyclen</h2>
 
             <div class="yesno-grid">
-                <button class="yesno-btn yes" onclick="selectChoice(this, 'q10', 12)">
-                    <!-- <span class="yesno-icon">👍</span> -->
-                    Ja               </button>
-                <button class="yesno-btn no" onclick="selectChoice(this, 'q10', 12)">
-                    <!-- <span class="yesno-icon">👎</span> -->
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q10', 12)">
+                    Ja
+                </button>
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q10', 12)">
                     Nee
                 </button>
             </div>
@@ -345,6 +338,8 @@
             </p>
 
             <audio id="ttsAudioPlayer" controls style="display:none; width:100%;"></audio>
+
+            <pre id="ttsMockText" style="display:none; white-space:pre-wrap; text-align:left; background:#f5f5f5; padding:1em; border-radius:8px;"></pre>
 
             <button class="btn-primary" id="ttsNextBtn" style="display:none" onclick="goToPage(15)">
                 Doorgaan <span class="btn-arrow">→</span>

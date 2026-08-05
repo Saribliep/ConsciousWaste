@@ -339,7 +339,10 @@
 
             <audio id="ttsAudioPlayer" controls style="display:none; width:100%;"></audio>
 
-            <pre id="ttsMockText" style="display:none; white-space:pre-wrap; text-align:left; background:#f5f5f5; padding:1em; border-radius:8px;"></pre>
+            <div id="ttsMockWrap" style="display:none; gap:1em; text-align:left; width:100%; flex-wrap:wrap;">
+                <pre id="ttsMockAnswers" style="flex:1; min-width:200px; white-space:pre-wrap; background:#eef; padding:1em; border-radius:8px;"></pre>
+                <pre id="ttsMockText" style="flex:2; min-width:280px; white-space:pre-wrap; background:#f5f5f5; padding:1em; border-radius:8px;"></pre>
+            </div>
 
             <button class="btn-primary" id="ttsNextBtn" style="display:none" onclick="goToPage(15)">
                 Doorgaan <span class="btn-arrow">→</span>

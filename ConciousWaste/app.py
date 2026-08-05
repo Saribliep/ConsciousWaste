@@ -66,7 +66,7 @@ init_db()
 
 
 # ── TTS worker (runs in background thread) ──────────────────────────────────
-def run_tts(job_id: str, audio_path: str, vals: dict, gender: str = ''):
+def run_tts(job_id: str, audio_path: str, vals: dict, response_id: int, gender: str = ''):
     """
     Correct Mistral TTS flow (according to docs.mistral.ai/capabilities/audio/):
 
@@ -86,8 +86,18 @@ def run_tts(job_id: str, audio_path: str, vals: dict, gender: str = ''):
     if MOCK_TTS:
         # Dry-run: skip both Mistral calls entirely and just hand back the
         # text that would have been sent for voice cloning / TTS.
+        naam = vals.get('q1', '')
+        answers_str = ', '.join(f"{k}={v}" for k, v in vals.items())
+        print(f"[MOCK_TTS] job {job_id} — naam: {naam}")
+        print(f"[MOCK_TTS] job {job_id} — answers: {answers_str}")
         print(f"[MOCK_TTS] job {job_id} — text that would be synthesised:\n{tts_text}")
-        tts_jobs[job_id] = {'status': 'done', 'audio_url': None, 'text': tts_text}
+        tts_jobs[job_id] = {
+            'status':    'done',
+            'audio_url': None,
+            'text':      tts_text,
+            'naam':      naam,
+            'answers':   vals,
+        }
         return
 
     client = Mistral(api_key=MISTRAL_API_KEY)
@@ -128,10 +138,23 @@ def run_tts(job_id: str, audio_path: str, vals: dict, gender: str = ''):
 
         # ── Step 4: decode and save the output audio ─────────────────────────
         # response.audio_data is a base64-encoded string
+        if getattr(response, 'audio_data', None):
+            print(f"TTS job {job_id}: audio_data received from Mistral API ({len(response.audio_data)} b64 chars)")
+        else:
+            print(f"TTS job {job_id}: no audio_data in Mistral API response — {response}")
+
         out_filename = f"{job_id}.mp3"
         out_path     = os.path.join(TTS_FOLDER, out_filename)
         with open(out_path, 'wb') as f:
             f.write(base64.b64decode(response.audio_data))
+
+        # Persist the mp3 filename against the survey response it belongs to
+        with get_db() as conn:
+            conn.execute(
+                "UPDATE responses SET tts_file = ? WHERE id = ?",
+                (out_filename, response_id)
+            )
+            conn.commit()
 
         tts_jobs[job_id] = {
             'status':    'done',
@@ -186,20 +209,21 @@ def submit():
 
     # Save to DB
     with get_db() as conn:
-        conn.execute(
+        cur = conn.execute(
             f"""INSERT INTO responses
                 (submitted_at, {', '.join(fields)}, gender, audio_file, tts_text)
                 VALUES (?, {', '.join(['?']*len(fields))}, ?, ?, ?)""",
             [datetime.utcnow().isoformat()] + [vals[f] for f in fields] + [gender, audio_filename, tts_text]
         )
         conn.commit()
+        response_id = cur.lastrowid
 
     # Start TTS job in background
     job_id = str(uuid.uuid4())
     tts_jobs[job_id] = {'status': 'pending'}
 
     if audio_path and (MISTRAL_API_KEY or MOCK_TTS):
-        thread = threading.Thread(target=run_tts, args=(job_id, audio_path, vals, gender), daemon=True)
+        thread = threading.Thread(target=run_tts, args=(job_id, audio_path, vals, response_id, gender), daemon=True)
         thread.start()
     else:
         # No API key or no audio — mark as error so frontend can still proceed

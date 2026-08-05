@@ -155,10 +155,16 @@ async function submitSurvey() {
             player.src = result.audio_url;
             player.style.display = 'block';
         } else if (result.text) {
-            // MOCK_TTS mode: no audio was generated — show the text instead
-            const mockText = document.getElementById('ttsMockText');
-            mockText.textContent = result.text;
-            mockText.style.display = 'block';
+            // MOCK_TTS mode: no audio was generated — show the name/answers
+            // and the generated text side by side instead
+            const answersLines = [`naam: ${result.naam || ''}`];
+            for (const [key, val] of Object.entries(result.answers || {})) {
+                if (key === 'q1') continue; // already shown as naam
+                answersLines.push(`${key}: ${val}`);
+            }
+            document.getElementById('ttsMockAnswers').textContent = answersLines.join('\n');
+            document.getElementById('ttsMockText').textContent    = result.text;
+            document.getElementById('ttsMockWrap').style.display  = 'flex';
         }
 
     } catch (err) {

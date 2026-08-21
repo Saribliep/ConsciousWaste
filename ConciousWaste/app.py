@@ -22,9 +22,13 @@ from tts_text import create_tss_text
 app = Flask(__name__)
 
 # ── Config ─────────────────────────────────────────────────────────────────
-UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')
-TTS_FOLDER    = os.path.join(os.path.dirname(__file__), 'static', 'tts')
-DB_PATH       = os.path.join(os.path.dirname(__file__), 'survey.db')
+# DATA_DIR holds everything that must survive redeploys/restarts (recordings,
+# generated audio, the DB). Defaults to the project folder for local dev; in
+# production, point it at a mounted persistent volume.
+DATA_DIR      = os.environ.get('DATA_DIR', os.path.dirname(__file__))
+UPLOAD_FOLDER = os.path.join(DATA_DIR, 'uploads')
+TTS_FOLDER    = os.path.join(DATA_DIR, 'tts')
+DB_PATH       = os.path.join(DATA_DIR, 'survey.db')
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(TTS_FOLDER,    exist_ok=True)
@@ -158,7 +162,7 @@ def run_tts(job_id: str, audio_path: str, vals: dict, response_id: int, gender: 
 
         tts_jobs[job_id] = {
             'status':    'done',
-            'audio_url': f'/static/tts/{out_filename}'
+            'audio_url': f'/tts_audio/{out_filename}'
         }
 
     # except Exception as e:
@@ -230,6 +234,11 @@ def submit():
         tts_jobs[job_id] = {'status': 'error', 'message': 'Geen API key of audio beschikbaar'}
 
     return jsonify({'status': 'ok', 'job_id': job_id}), 200
+
+
+@app.route('/tts_audio/<filename>')
+def tts_audio(filename):
+    return send_from_directory(TTS_FOLDER, filename)
 
 
 @app.route('/tts_status/<job_id>')

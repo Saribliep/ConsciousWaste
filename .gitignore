@@ -1,6 +1,11 @@
 # Folder with recordings
 uploads/
 
+# Python bytecode cache #
+##########################
+__pycache__/
+*.pyc
+
 # Logs and databases #
 ######################
 *.log

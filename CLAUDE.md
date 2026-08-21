@@ -16,29 +16,37 @@ The app clones their voice using Mistral's Voxtral API and plays back a pre-writ
 - **AI/Audio**: Mistral AI SDK (`mistralai`) — `voxtral-mini-tts-2603` model for voice cloning TTS
 - **Frontend**: Vanilla HTML/CSS/JS, Jinja2 templates, no framework
 - **Audio capture**: Browser `MediaRecorder` API → `.webm` uploads
-- **TTS output**: Base64-decoded MP3 files served from `static/tts/`
+- **TTS output**: Base64-decoded MP3 files served from `DATA_DIR/tts/` via the `/tts_audio/<filename>` route
 
 ## Project structure
+Note: the app used to live in a `ConciousWaste/` subfolder of this repo; it was
+flattened to the repo root so hosting platforms (Railway) don't need a
+"root directory" override to find `app.py`/`Procfile`/`requirements.txt`.
 ```
 app.py                  # Flask app — routes, DB, TTS background thread
+Procfile                # Production start command (gunicorn, single worker)
 templates/index.html    # Single-page survey (14 pages, Dutch)
 static/css/styles.css
 static/js/script.js
 static/audio/           # Pre-recorded intro fragment
-static/tts/             # Generated TTS output (per job_id UUID)
-uploads/                # Raw user audio recordings (.webm)
-src/utils/              # Utility scripts (speech_generation, voice)
-survey.db               # SQLite database
-requirements.txt        # Flask, requests (mistralai installed separately)
+uploads/                # Raw user audio recordings (.webm) — under DATA_DIR
+tts/                    # Generated TTS output (per job_id UUID) — under DATA_DIR
+src/utils/              # Utility scripts (speech_generation, voice, tts_text)
+survey.db               # SQLite database — under DATA_DIR
+requirements.txt        # Flask, requests, gunicorn, mistralai
 ```
 
 ## Environment setup
 ```bash
 conda activate mistralai
 export MISTRAL_API_KEY="yourkey"
-cd /Users/sarahparinussa/code/BouwafvalBeukenblad/Voxtral/ConciousWaste
+cd /Users/sarahparinussa/code/BouwafvalBeukenblad/Voxtral
 python app.py
 ```
+
+`DATA_DIR` (env var) controls where `survey.db`, `uploads/`, and `tts/` live —
+defaults to the project folder locally; in production it should point at a
+mounted persistent volume so data survives restarts/redeploys.
 
 ## Key flows
 1. User completes survey → POST `/submit` → saves to DB, saves `.webm` audio, starts background TTS thread

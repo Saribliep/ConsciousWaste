@@ -35,9 +35,15 @@
                 <input type="checkbox" id="consentBox" onchange="toggleConsent()">
                 Ik ga akkoord met de voorwaarden
             </label>
-            <button class="btn-primary" id="consentBtn" disabled onclick="goToPage(1)">
+            <button class="btn-primary" id="consentBtn" disabled onclick="requestMicAndContinue()">
                 Doorgaan <span class="btn-arrow">→</span>
             </button>
+
+            <div class="mic-check-error" id="micCheckError" style="display:none; text-align:left; margin-top:1.5em; padding:1em; background:#fff3f3; border-radius:8px;">
+                <p><strong>🎙️ We hebben toegang tot je microfoon nodig</strong> — aan het einde van de vragenlijst neem je een korte spraakopname op.</p>
+                <p id="micCheckInstructions"></p>
+                <button class="btn-primary" onclick="requestMicAndContinue()">Probeer opnieuw</button>
+            </div>
         </div>
     </div>
 

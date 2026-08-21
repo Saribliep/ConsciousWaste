@@ -41,6 +41,37 @@ function toggleConsent() {
     document.getElementById('consentBtn').disabled = !checked;
 }
 
+// ── Mic permission pre-check ───────────
+// Browsers won't let a webpage jump into the phone's system Settings app —
+// so instead we ask for mic access right after consent (before the 14-page
+// survey) and show clear, platform-specific instructions if it's blocked.
+// This way people find out immediately instead of at the very last page.
+function micReenableInstructions() {
+    const ua = navigator.userAgent;
+    if (/iPhone|iPad|iPod/.test(ua)) {
+        return "Ga naar Instellingen → Safari → Microfoon en zet deze website op 'Toestaan'. Kom daarna terug en tik op 'Probeer opnieuw'.";
+    } else if (/Android/.test(ua)) {
+        return "Tik op het slotje of (i) icoontje naast de website-adres, kies 'Machtigingen' → 'Microfoon' → 'Toestaan'. Tik daarna op 'Probeer opnieuw'.";
+    }
+    return "Klik op het slotje of (i) icoontje naast de website-adres in je browser, zet 'Microfoon' op 'Toestaan', en tik daarna op 'Probeer opnieuw'.";
+}
+
+async function requestMicAndContinue() {
+    const errorBox = document.getElementById('micCheckError');
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        // We only need to confirm access here — stop the stream immediately,
+        // the real recording happens later on page 13.
+        stream.getTracks().forEach(t => t.stop());
+        errorBox.style.display = 'none';
+        goToPage(1);
+    } catch (err) {
+        console.error('Mic pre-check failed:', err);
+        document.getElementById('micCheckInstructions').textContent = micReenableInstructions();
+        errorBox.style.display = 'block';
+    }
+}
+
 // ── Question 1: text input ─────────────
 function checkTextInput() {
     const val = document.getElementById('q1').value.trim();

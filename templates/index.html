@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Survey App</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Het Geweten</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
@@ -20,6 +18,7 @@
     ══════════════════════════════════════ -->
     <div class="page active" id="page-0">
         <div class="page-inner consent-page">
+            <div class="wordmark">HET GEWETEN</div>
             <div class="consent-icon">📋</div>
             <h1>Hoi, leuk dat je meedoet!</h1>
             <p class="consent-lead">Voordat we beginnen:</p>
@@ -39,7 +38,7 @@
                 Doorgaan <span class="btn-arrow">→</span>
             </button>
 
-            <div class="mic-check-error" id="micCheckError" style="display:none; text-align:left; margin-top:1.5em; padding:1em; background:#fff3f3; border-radius:8px;">
+            <div class="mic-check-error" id="micCheckError" style="display:none;">
                 <p><strong>🎙️ We hebben toegang tot je microfoon nodig</strong> — aan het einde van de vragenlijst neem je een korte spraakopname op.</p>
                 <p id="micCheckInstructions"></p>
                 <button class="btn-primary" onclick="requestMicAndContinue()">Probeer opnieuw</button>
@@ -52,7 +51,8 @@
     ══════════════════════════════════════ -->
     <div class="page" id="page-1">
         <div class="page-inner">
-            <span class="question-label">Question 1 of 14</span>
+            <span class="question-label">Vraag 1 · 14</span>
+            <div class="q-number">1</div>
             <h2>Wat is je voornaam?</h2>
             <h5>Vul hier je echte naam in, geen zorgen dit is verder geheel anoniem. Je antwoorden worden niet opgeslagen.</h5>
             <input
@@ -84,7 +84,8 @@
     ══════════════════════════════════════ -->
     <div class="page" id="page-2">
         <div class="page-inner">
-            <span class="question-label">Question 2 of 14</span>
+            <span class="question-label">Vraag 2 · 14</span>
+            <div class="q-number">2</div>
             <h2>Hoe identificeer je jezelf?</h2>
 
             <div class="choice-grid" id="gender-choices">
@@ -101,7 +102,8 @@
 
     <div class="page" id="page-3">
         <div class="page-inner">
-            <span class="question-label">Question 3 of 14</span>
+            <span class="question-label">Vraag 3 · 14</span>
+            <div class="q-number">3</div>
 
             <h3>Je wilt de muur eruit halen. De houten balken zijn te recyclen als de schroeven eruit gehaald worden.</h3>
             <h3>Wat doe je?</h3>
@@ -118,7 +120,8 @@
     ══════════════════════════════════════ -->
     <div class="page" id="page-4">
         <div class="page-inner">
-            <span class="question-label">Question 4 of 14</span>
+            <span class="question-label">Vraag 4 · 14</span>
+            <div class="q-number">4</div>
             <h2>De overige recyclebare materialen (schroeven, steenwol, plastic behuizing) die vrij komen...</h2>
 
             <div class="choice-grid" id="q3-choices">
@@ -133,7 +136,8 @@
     ══════════════════════════════════════ -->
     <div class="page" id="page-5">
         <div class="page-inner">
-            <span class="question-label">Question 5 of 14</span>
+            <span class="question-label">Vraag 5 · 14</span>
+            <div class="q-number">5</div>
             <h2>Welke uitspraak past het best bij jouw persoonlijke waarde? Ik vind het belangrijk..</h2>
 
             <div class="choice-grid" id="q4-choices">
@@ -150,7 +154,8 @@
     ══════════════════════════════════════ -->
     <div class="page" id="page-6">
         <div class="page-inner">
-            <span class="question-label">Question 6 of 14</span>
+            <span class="question-label">Vraag 6 · 14</span>
+            <div class="q-number">6</div>
             <h2>Vind je dat recyclen moreel gezien het juiste is om te doen?</h2>
 
             <div class="yesno-grid">
@@ -170,7 +175,8 @@
 
     <div class="page" id="page-7">
         <div class="page-inner">
-            <span class="question-label">Question 7 of 14</span>
+            <span class="question-label">Vraag 7 · 14</span>
+            <div class="q-number">7</div>
             <h2>Zou jij een milieubewust persoon willen zijn?</h2>
 
             <div class="yesno-grid">
@@ -190,7 +196,8 @@
 
     <div class="page" id="page-8">
         <div class="page-inner">
-            <span class="question-label">Question 8 of 14</span>
+            <span class="question-label">Vraag 8 · 14</span>
+            <div class="q-number">8</div>
             <h2>Ik weet dat wanneer we niet recyclen, dit bijdraagt aan klimaatverandering met gevolgen als extreme droogte en overstromingen, voedsel- en waterschaarste, onleefbare leefomstandigheden en gedwongen massamigratie. </h2>
 
             <div class="choice-grid" id="q7-choices">
@@ -207,7 +214,8 @@
 
     <div class="page" id="page-9">
         <div class="page-inner">
-            <span class="question-label">Question 9 of 14</span>
+            <span class="question-label">Vraag 9 · 14</span>
+            <div class="q-number">9</div>
             <h2>Ik maak me zorgen over de gevolgen van klimaatverandering.</h2>
 
             <div class="yesno-grid">
@@ -228,7 +236,8 @@
 
     <div class="page" id="page-10">
         <div class="page-inner">
-            <span class="question-label">Question 10 of 14</span>
+            <span class="question-label">Vraag 10 · 14</span>
+            <div class="q-number">10</div>
             <h2>Als ik niet recycle, draag ik bij aan de negatieve gevolgen van klimaatverandering.</h2>
 
             <div class="yesno-grid">
@@ -249,7 +258,8 @@
 
     <div class="page" id="page-11">
         <div class="page-inner">
-            <span class="question-label">Question 11 of 14</span>
+            <span class="question-label">Vraag 11 · 14</span>
+            <div class="q-number">11</div>
             <h2>Ondanks dat bedrijven en de politiek verantwoordelijkheid moeten nemen rondom afvalproductie en verwerking, heb ik als individu ook een verantwoordelijkheid om te recyclen</h2>
 
             <div class="yesno-grid">
@@ -269,7 +279,8 @@
 
     <div class="page" id="page-12">
         <div class="page-inner">
-            <span class="question-label">Question 12 of 14</span>
+            <span class="question-label">Vraag 12 · 14</span>
+            <div class="q-number">12</div>
             <h2>Heb je het idee dat je niet genoeg tijd hebt om te recyclen?</h2>
 
             <div class="choice-grid" id="q11-choices">
@@ -286,7 +297,8 @@
 
     <div class="page" id="page-13">
         <div class="page-inner">
-            <span class="question-label">Question 13 of 14</span>
+            <span class="question-label">Vraag 13 · 14</span>
+            <div class="q-number">13</div>
             <h2>Spreek de volgende zin in:</h2>
             <blockquote class="quote-text">"Ik liep door de stad en hoorde muziek in de verte. <br> Mensen praatten rustig terwijl het langzaam donker werd. <br> Het voelde vreemd, maar ook vertrouwd."</blockquote>
             <blockquote class="quote-text">"Gisteren zei je dat je huis dichtbij het oude plein staat, maar ik hoorde iets anders. <br> Misschien klonk het geluid gewoon anders door de ruimte, of sprak je wat zachter dan normaal.<br> Ik vroeg me af of jij dat ook merkt wanneer mensen uit een andere regio praten.<br>Sommige woorden, zoals 'graag', 'zeker' en 'buiten', klinken telkens net een beetje anders." </blockquote>
@@ -343,9 +355,9 @@
 
             <audio id="ttsAudioPlayer" controls style="display:none; width:100%;"></audio>
 
-            <div id="ttsMockWrap" style="display:none; gap:1em; text-align:left; width:100%; flex-wrap:wrap;">
-                <pre id="ttsMockAnswers" style="flex:1; min-width:200px; white-space:pre-wrap; background:#eef; padding:1em; border-radius:8px;"></pre>
-                <pre id="ttsMockText" style="flex:2; min-width:280px; white-space:pre-wrap; background:#f5f5f5; padding:1em; border-radius:8px;"></pre>
+            <div id="ttsMockWrap" class="tts-mock-wrap">
+                <pre id="ttsMockAnswers" class="tts-mock-panel answers"></pre>
+                <pre id="ttsMockText" class="tts-mock-panel text"></pre>
             </div>
 
             <button class="btn-primary" id="ttsNextBtn" style="display:none" onclick="goToPage(15)">

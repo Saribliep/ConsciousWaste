@@ -4,20 +4,23 @@ Saves answers to survey.db, handles audio upload,
 and generates TTS via Mistral API in a background thread.
 """
 
+import io
 import os
 import sys
 import uuid
 import sqlite3
 import threading
 import base64
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from flask import Flask, request, render_template, jsonify, send_from_directory
 
 # pip install mistralai
 from mistralai.client import Mistral
+from pydub import AudioSegment
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src', 'utils'))
-from tts_text import create_tss_text
+from tts_text import create_tss_text, create_tss_segments
 
 app = Flask(__name__)
 
@@ -132,25 +135,48 @@ def run_tts(job_id: str, audio_path: str, vals: dict, response_id: int, gender: 
         print(f"Creating voice profile for job {job_id} using {audio_filename}")
         voice_id = voice.id
 
-        # ── Call Mistral TTS with voice cloning ─────────────────────────────
-        response = client.audio.speech.complete(
-            model="voxtral-mini-tts-2603",   # official model name from docs
-            input=tts_text,
-            voice_id=voice_id,               # use the voice we just created
-            response_format="mp3",
-        )
+        # ── Step 3: synthesise each text segment separately, in parallel ─────
+        # The monologue template has PAUZE-<seconds> markers meant to become
+        # silent thinking-pauses in the audio (can't be expressed as plain
+        # text). create_tss_segments() splits the rendered text on those
+        # markers; each text segment becomes its own Voxtral call (using the
+        # same cloned voice), and each pause becomes real silence — both get
+        # stitched together afterward in the original order.
+        segments = create_tss_segments(vals)
+        text_segments = [(i, content) for i, (kind, content) in enumerate(segments) if kind == 'text']
 
-        # ── Step 4: decode and save the output audio ─────────────────────────
-        # response.audio_data is a base64-encoded string
-        if getattr(response, 'audio_data', None):
-            print(f"TTS job {job_id}: audio_data received from Mistral API ({len(response.audio_data)} b64 chars)")
-        else:
-            print(f"TTS job {job_id}: no audio_data in Mistral API response — {response}")
+        def synthesise(item):
+            index, text = item
+            resp = client.audio.speech.complete(
+                model="voxtral-mini-tts-2603",   # official model name from docs
+                input=text,
+                voice_id=voice_id,               # use the voice we just created
+                response_format="mp3",
+            )
+            if not getattr(resp, 'audio_data', None):
+                raise RuntimeError(f"no audio_data in Mistral response for segment {index}: {resp}")
+            audio_bytes = base64.b64decode(resp.audio_data)
+            return index, AudioSegment.from_file(io.BytesIO(audio_bytes), format="mp3")
+
+        audio_by_index = {}
+        with ThreadPoolExecutor(max_workers=6) as executor:
+            for index, clip in executor.map(synthesise, text_segments):
+                audio_by_index[index] = clip
+
+        print(f"TTS job {job_id}: synthesised {len(text_segments)} segments, "
+              f"stitching in {sum(1 for k, _ in segments if k == 'pause')} pauses")
+
+        # ── Step 4: stitch segments + silence together in order, save mp3 ────
+        combined = AudioSegment.empty()
+        for index, (kind, content) in enumerate(segments):
+            if kind == 'text':
+                combined += audio_by_index[index]
+            else:
+                combined += AudioSegment.silent(duration=content * 1000)
 
         out_filename = f"{job_id}.mp3"
         out_path     = os.path.join(TTS_FOLDER, out_filename)
-        with open(out_path, 'wb') as f:
-            f.write(base64.b64decode(response.audio_data))
+        combined.export(out_path, format="mp3")
 
         # Persist the mp3 filename against the survey response it belongs to
         with get_db() as conn:

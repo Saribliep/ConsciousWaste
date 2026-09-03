@@ -19,14 +19,14 @@
     <div class="page active" id="page-0">
         <div class="page-inner consent-page">
             <div class="wordmark">HET GEWETEN</div>
-            <div class="consent-icon">📋</div>
-            <h1>Hoi, leuk dat je meedoet!</h1>
+            <h1>Leuk dat je meedoet!</h1>
             <p class="consent-lead">Voordat we beginnen:</p>
 
             <ul class="consent-list">
                 <li>✦ Deelname is vrijwillig</li>
-                <li>✦ Je kan ieder moment stoppen</li>
-                <li>✦ Audio wordt alleen voor jouw ervaring gebruikt en niet opgeslagen</li>
+                <li>✦ Je mag ieder moment stoppen</li>
+                <li>✦ Geef toestemming voor gebruik microfoon</li>
+                <li>✦ Audio wordt verwijderd na afloop</li>
                 <li>✦ Er wordt geen persoonlijke data gedeeld met derde partijen</li>
             </ul>
 
@@ -109,7 +109,7 @@
             <h3>Wat doe je?</h3>
 
             <div class="choice-grid" id="q2-choices">
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q2', 4)">Ik gooi het hout weg in de bouw en sloop container</button>
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q2', 4)">Ik gooi het hout weg in de gehuurde bouw- en sloopcontainer</button>
                 <button class="choice-btn" data-value="b"      onclick="selectChoice(this, 'q2', 4)">Ik verwijder alle schroeven en laat het ophalen door een tweedehands bouwbedrijf (kost je 3 uur extra)</button>
             </div>
         </div>
@@ -125,8 +125,8 @@
             <h2>De overige recyclebare materialen (schroeven, steenwol, plastic behuizing) die vrij komen...</h2>
 
             <div class="choice-grid" id="q3-choices">
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q3', 5)">gooi ik in één bouw- en sloop-container in mijn straat.</button>
-                <button class="choice-btn" data-value="b"      onclick="selectChoice(this, 'q3', 5)">laat ik apart sorteren en breng ik zelf naar de milieustraat (kost je 2 uur extra).</button>
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q3', 5)">gooi ik in de bouw- en sloopcontainer in mijn straat.</button>
+                <button class="choice-btn" data-value="b"      onclick="selectChoice(this, 'q3', 5)">sorteer ik apart en breng ik zelf naar de milieustraat (dat kost me 3 uur extra).</button>
             </div>
         </div>
     </div>
@@ -201,7 +201,7 @@
             <h2>Ik weet dat wanneer we niet recyclen, dit bijdraagt aan klimaatverandering met gevolgen als extreme droogte en overstromingen, voedsel- en waterschaarste, onleefbare leefomstandigheden en gedwongen massamigratie. </h2>
 
             <div class="choice-grid" id="q7-choices">
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q7', 9)">ik wist dit niet</button>
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q7', 9)">Ik wist dit niet</button>
                 <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q7', 9)">Ik wist dit wel</button>
             </div>
         </div>
@@ -300,7 +300,6 @@
             <span class="question-label">Vraag 13 · 14</span>
             <div class="q-number">13</div>
             <h2>Spreek de volgende zin in:</h2>
-            <blockquote class="quote-text">"Ik liep door de stad en hoorde muziek in de verte. <br> Mensen praatten rustig terwijl het langzaam donker werd. <br> Het voelde vreemd, maar ook vertrouwd."</blockquote>
             <blockquote class="quote-text">"Gisteren zei je dat je huis dichtbij het oude plein staat, maar ik hoorde iets anders. <br> Misschien klonk het geluid gewoon anders door de ruimte, of sprak je wat zachter dan normaal.<br> Ik vroeg me af of jij dat ook merkt wanneer mensen uit een andere regio praten.<br>Sommige woorden, zoals 'graag', 'zeker' en 'buiten', klinken telkens net een beetje anders." </blockquote>
 
             <div class="recorder">
@@ -312,10 +311,10 @@
 
                 <div class="recorder-controls">
                     <button class="btn-record start" id="startRecordBtn" onclick="startRecording()">
-                        ● Start opname
+                        ● Start
                     </button>
                     <button class="btn-record stop" id="stopRecordBtn" onclick="stopRecording()" disabled>
-                        ■ Stop opname
+                        ■ Stop
                     </button>
                 </div>
 
@@ -341,7 +340,7 @@
     <div class="page" id="page-14">
         <div class="page-inner center-all">
             <div class="tts-icon">🎧</div>
-            <h2>Ga nu ergens zitten en luister naar het audiofragment</h2>
+            <h2>Loop nu naar de spiegels en luister naar het audiofragment</h2>
             <p class="consent-lead">Een ogenblik geduld…</p>
 
             <div class="tts-loading" id="ttsLoadingMsg">
@@ -350,7 +349,7 @@
             </div>
 
             <p class="tts-ready-msg" id="ttsReadyMsg" style="display:none">
-                ✅ Ga nu ergens zitten en luister naar het audiofragment. Probeer je volledig te focussen op het verhaal en de details in het geluid. Na het luisteren vragen we je om een paar vragen te beantwoorden over wat je gehoord hebt.:
+                Ga nu ergens zitten en luister naar het audiofragment.
             </p>
 
             <audio id="ttsAudioPlayer" controls style="display:none; width:100%;"></audio>

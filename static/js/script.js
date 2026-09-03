@@ -4,7 +4,7 @@
 
 // ── State ──────────────────────────────
 const answers     = {};
-const TOTAL_PAGES = 15; // pages 1-15 (0 = consent)
+const TOTAL_PAGES = 16; // pages 1-16 (0 = consent)
 
 let currentPage   = 0;
 let mediaRecorder = null;
@@ -154,6 +154,23 @@ function setRecorderUI(isRecording) {
     }
 }
 
+// ── Mirror moment (page 14) ────────────
+function playMirrorMoment() {
+    const audio   = document.getElementById('mirrorAudio');
+    const playBtn = document.getElementById('mirrorPlayBtn');
+    const nextBtn = document.getElementById('mirrorNextBtn');
+
+    playBtn.disabled    = true;
+    playBtn.textContent = '▶ Wordt afgespeeld…';
+    nextBtn.style.display = 'flex'; // manual fallback in case playback fails
+
+    audio.play().catch(err => {
+        console.error('Mirror audio playback failed:', err);
+    });
+
+    audio.onended = () => goToPage(15);
+}
+
 // ── Submit + kick off TTS ──────────────
 async function submitSurvey() {
     const formData = new FormData();
@@ -166,7 +183,8 @@ async function submitSurvey() {
         formData.append('audio', audioBlob, 'recording.webm');
     }
 
-    // Go to TTS loading page immediately
+    // Go to the mirror-moment page immediately — TTS generates in the
+    // background (see below) while that fragment plays
     goToPage(14);
 
     try {

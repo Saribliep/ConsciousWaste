@@ -18,6 +18,7 @@ __pycache__/
 *.webm
 *.mp3
 !static/audio/intro_fragment.mp3
+!static/audio/spiegelmoment.mp3
 
 
 # OS generated files #

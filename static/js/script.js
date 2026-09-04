@@ -4,7 +4,7 @@
 
 // ── State ──────────────────────────────
 const answers     = {};
-const TOTAL_PAGES = 18; // pages 1-18 (0 = consent)
+const TOTAL_PAGES = 19; // pages 1-18 (0 = consent)
 
 let currentPage   = 0;
 let mediaRecorder = null;
@@ -78,6 +78,24 @@ function checkTextInput() {
     const val = document.getElementById('q1').value.trim();
     document.getElementById('nextBtn1').disabled = (val.length === 0);
     answers.q1 = val;
+}
+
+// ── Intro audio / maquette (page 2) ────
+function playIntroFragment() {
+    const audio   = document.getElementById('introAudio');
+    const playBtn = document.getElementById('introPlayBtn');
+    const nextBtn = document.getElementById('introNextBtn');
+
+    playBtn.disabled    = true;
+    playBtn.textContent = '▶ Wordt afgespeeld…';
+
+    audio.play().catch(err => {
+        console.error('Intro audio playback failed:', err);
+        nextBtn.style.display = 'flex'; // don't strand the user if playback fails
+    });
+
+    audio.onended = () => { nextBtn.style.display = 'flex'; };
+    audio.onerror = () => { nextBtn.style.display = 'flex'; };
 }
 
 // ── Choice buttons (q2 and q3) ─────────
@@ -163,13 +181,14 @@ function playMirrorMoment() {
 
     playBtn.disabled    = true;
     playBtn.textContent = '▶ Wordt afgespeeld…';
-    nextBtn.style.display = 'flex'; // manual fallback in case playback fails
 
     audio.play().catch(err => {
         console.error('Mirror audio playback failed:', err);
+        nextBtn.style.display = 'flex'; // don't strand the user if playback fails
     });
 
-    audio.onended = () => goToPage(17);
+    audio.onended = () => { nextBtn.style.display = 'flex'; };
+    audio.onerror = () => { nextBtn.style.display = 'flex'; };
 }
 
 // ── Het Geweten playback (page 17) ─────
@@ -180,13 +199,14 @@ function playTtsAudio() {
 
     playBtn.disabled    = true;
     playBtn.textContent = '▶ Wordt afgespeeld…';
-    nextBtn.style.display = 'flex'; // manual fallback in case playback fails
 
     audio.play().catch(err => {
         console.error('Het Geweten audio playback failed:', err);
+        nextBtn.style.display = 'flex'; // don't strand the user if playback fails
     });
 
-    audio.onended = () => goToPage(18);
+    audio.onended = () => { nextBtn.style.display = 'flex'; };
+    audio.onerror = () => { nextBtn.style.display = 'flex'; };
 }
 
 // ── Submit + kick off TTS ──────────────
@@ -203,7 +223,7 @@ async function submitSurvey() {
 
     // Go to the mirror-moment page immediately — TTS generates in the
     // background (see below) while that fragment plays
-    goToPage(16);
+    goToPage(17);
 
     try {
         const res  = await fetch('/submit', { method: 'POST', body: formData });

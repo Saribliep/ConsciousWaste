@@ -157,7 +157,7 @@ p { line-height: 1.65; color: var(--muted); font-size: .95rem; }
     padding: 18px 20px;
 }
 .consent-list li {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: var(--accent);
     font-weight: 500;
     line-height: 1.4;
@@ -346,7 +346,7 @@ audio { width: 100%; border-radius: var(--radius-sm); }
 /* ── Quote ── */
 .quote-text {
     font-family: var(--font-body);
-    font-size: 1.35rem;
+    font-size: 1.2rem;
     font-style: italic;
     color: var(--text);
     border-left: 3px solid var(--accent);

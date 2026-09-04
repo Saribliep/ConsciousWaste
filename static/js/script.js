@@ -4,12 +4,13 @@
 
 // ── State ──────────────────────────────
 const answers     = {};
-const TOTAL_PAGES = 16; // pages 1-16 (0 = consent)
+const TOTAL_PAGES = 18; // pages 1-18 (0 = consent)
 
 let currentPage   = 0;
 let mediaRecorder = null;
 let audioChunks   = [];
 let audioBlob     = null;
+let responseId    = null; // set once /submit responds, used later for /feedback
 
 // ── Page navigation ────────────────────
 function goToPage(next) {
@@ -49,7 +50,7 @@ function toggleConsent() {
 function micReenableInstructions() {
     const ua = navigator.userAgent;
     if (/iPhone|iPad|iPod/.test(ua)) {
-        return "Ga naar Instellingen → Safari → Microfoon en zet deze website op 'Toestaan'. Kom daarna terug en tik op 'Probeer opnieuw'.";
+        return "Ga naar Instellingen → Safari/Chrome → Microfoon en zet deze website op 'Toestaan'. Kom daarna terug en tik op 'Probeer opnieuw'.";
     } else if (/Android/.test(ua)) {
         return "Tik op het slotje of (i) icoontje naast de website-adres, kies 'Machtigingen' → 'Microfoon' → 'Toestaan'. Tik daarna op 'Probeer opnieuw'.";
     }
@@ -154,7 +155,7 @@ function setRecorderUI(isRecording) {
     }
 }
 
-// ── Mirror moment (page 14) ────────────
+// ── Mirror moment (page 16) ────────────
 function playMirrorMoment() {
     const audio   = document.getElementById('mirrorAudio');
     const playBtn = document.getElementById('mirrorPlayBtn');
@@ -168,7 +169,24 @@ function playMirrorMoment() {
         console.error('Mirror audio playback failed:', err);
     });
 
-    audio.onended = () => goToPage(15);
+    audio.onended = () => goToPage(17);
+}
+
+// ── Het Geweten playback (page 17) ─────
+function playTtsAudio() {
+    const audio   = document.getElementById('ttsAudioPlayer');
+    const playBtn = document.getElementById('ttsPlayBtn');
+    const nextBtn = document.getElementById('ttsNextBtn');
+
+    playBtn.disabled    = true;
+    playBtn.textContent = '▶ Wordt afgespeeld…';
+    nextBtn.style.display = 'flex'; // manual fallback in case playback fails
+
+    audio.play().catch(err => {
+        console.error('Het Geweten audio playback failed:', err);
+    });
+
+    audio.onended = () => goToPage(18);
 }
 
 // ── Submit + kick off TTS ──────────────
@@ -185,27 +203,28 @@ async function submitSurvey() {
 
     // Go to the mirror-moment page immediately — TTS generates in the
     // background (see below) while that fragment plays
-    goToPage(14);
+    goToPage(16);
 
     try {
         const res  = await fetch('/submit', { method: 'POST', body: formData });
         if (!res.ok) throw new Error('submit failed');
         const data = await res.json();
+        responseId = data.response_id;
 
         // Poll until the TTS result (audio, or in mock mode the generated text) is ready
         const result = await pollForTTSAudio(data.job_id);
 
         document.getElementById('ttsLoadingMsg').style.display = 'none';
-        document.getElementById('ttsReadyMsg').style.display    = 'block';
-        document.getElementById('ttsNextBtn').style.display     = 'flex';
 
         if (result.audio_url) {
-            const player = document.getElementById('ttsAudioPlayer');
-            player.src = result.audio_url;
-            player.style.display = 'block';
+            // Real audio: show the "sit down and press play" moment —
+            // the Doorgaan button only appears once they've started playback
+            document.getElementById('ttsReadyMsg').style.display = 'block';
+            document.getElementById('ttsAudioPlayer').src = result.audio_url;
         } else if (result.text) {
             // MOCK_TTS mode: no audio was generated — show the name/answers
-            // and the generated text side by side instead
+            // and the generated text side by side instead, and skip straight
+            // to a manual Doorgaan since there's nothing to play
             const answersLines = [`naam: ${result.naam || ''}`];
             for (const [key, val] of Object.entries(result.answers || {})) {
                 if (key === 'q1') continue; // already shown as naam
@@ -214,6 +233,7 @@ async function submitSurvey() {
             document.getElementById('ttsMockAnswers').textContent = answersLines.join('\n');
             document.getElementById('ttsMockText').textContent    = result.text;
             document.getElementById('ttsMockWrap').style.display  = 'flex';
+            document.getElementById('ttsNextBtn').style.display   = 'flex';
         }
 
     } catch (err) {
@@ -222,6 +242,28 @@ async function submitSurvey() {
             '⚠️ Er ging iets mis bij het genereren van audio. Ga toch door.';
         document.getElementById('ttsNextBtn').style.display = 'flex';
     }
+}
+
+// ── Post-submission feedback (page 18) ─
+async function submitFeedback() {
+    const btn = document.getElementById('feedbackSubmitBtn');
+    btn.disabled = true;
+
+    try {
+        await fetch('/feedback', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                response_id: responseId,
+                emotion:     document.getElementById('feedbackEmotion').value,
+                email:       document.getElementById('feedbackEmail').value,
+            }),
+        });
+    } catch (err) {
+        console.error('Feedback submit failed:', err);
+    }
+
+    document.getElementById('feedbackThanks').style.display = 'block';
 }
 
 // ── Init ───────────────────────────────

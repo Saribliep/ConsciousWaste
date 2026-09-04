@@ -58,12 +58,14 @@ def init_db():
                 submitted_at TEXT,
                 q1 TEXT, q2 TEXT, q3 TEXT, q4 TEXT, q5 TEXT,
                 q6 TEXT, q7 TEXT, q8 TEXT, q9 TEXT, q10 TEXT,
-                q11 TEXT, gender TEXT, audio_file TEXT, tts_file TEXT, tts_text TEXT
+                q11 TEXT, gender TEXT, audio_file TEXT, tts_file TEXT, tts_text TEXT,
+                feedback_emotion TEXT, feedback_email TEXT
             )
         """)
         existing = {row[1] for row in conn.execute("PRAGMA table_info(responses)")}
         for col in ['submitted_at','q1','q2','q3','q4','q5','q6','q7',
-                    'q8','q9','q10','q11','gender','audio_file','tts_file','tts_text']:
+                    'q8','q9','q10','q11','gender','audio_file','tts_file','tts_text',
+                    'feedback_emotion','feedback_email']:
             if col not in existing:
                 conn.execute(f"ALTER TABLE responses ADD COLUMN {col} TEXT")
         conn.commit()
@@ -259,7 +261,27 @@ def submit():
         # No API key or no audio — mark as error so frontend can still proceed
         tts_jobs[job_id] = {'status': 'error', 'message': 'Geen API key of audio beschikbaar'}
 
-    return jsonify({'status': 'ok', 'job_id': job_id}), 200
+    return jsonify({'status': 'ok', 'job_id': job_id, 'response_id': response_id}), 200
+
+
+@app.route('/feedback', methods=['POST'])
+def feedback():
+    data        = request.get_json(silent=True) or {}
+    response_id = data.get('response_id')
+    emotion     = (data.get('emotion') or '').strip()
+    email       = (data.get('email') or '').strip()
+
+    if not response_id:
+        return jsonify({'status': 'error', 'message': 'response_id ontbreekt'}), 400
+
+    with get_db() as conn:
+        conn.execute(
+            "UPDATE responses SET feedback_emotion = ?, feedback_email = ? WHERE id = ?",
+            (emotion, email, response_id)
+        )
+        conn.commit()
+
+    return jsonify({'status': 'ok'}), 200
 
 
 @app.route('/tts_audio/<filename>')

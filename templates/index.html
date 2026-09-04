@@ -20,7 +20,6 @@
         <div class="page-inner consent-page">
             <div class="wordmark">HET GEWETEN</div>
             <h1>Leuk dat je meedoet!</h1>
-            <p class="consent-lead">Voordat we beginnen:</p>
 
             <ul class="consent-list">
                 <li>✦ Deelname is vrijwillig</li>
@@ -51,7 +50,6 @@
     ══════════════════════════════════════ -->
     <div class="page" id="page-1">
         <div class="page-inner">
-            <span class="question-label">Vraag 1 · 14</span>
             <h2>Wat is je voornaam?</h2>
             <h5>Vul hier je echte naam in, geen zorgen dit is verder geheel anoniem. Je antwoorden worden niet opgeslagen.</h5>
             <input
@@ -83,7 +81,6 @@
     ══════════════════════════════════════ -->
     <div class="page" id="page-2">
         <div class="page-inner">
-            <span class="question-label">Vraag 2 · 14</span>
             <h2>Hoe identificeer je jezelf?</h2>
 
             <div class="choice-grid" id="gender-choices">
@@ -95,88 +92,81 @@
     </div>
 
     <!-- ══════════════════════════════════════
-         PAGE 3 — MUUR ERUIT
+         PAGE 3 — INTRO TO QUESTIONS
     ══════════════════════════════════════ -->
-
     <div class="page" id="page-3">
-        <div class="page-inner">
-            <span class="question-label">Vraag 3 · 14</span>
-
-            <h3>Je wilt de muur eruit halen. De houten balken zijn te recyclen als de schroeven eruit gehaald worden.</h3>
-            <h3>Wat doe je?</h3>
-
-            <div class="choice-grid" id="q2-choices">
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q2', 4)">Ik gooi het hout weg in de gehuurde bouw- en sloopcontainer</button>
-                <button class="choice-btn" data-value="b"      onclick="selectChoice(this, 'q2', 4)">Ik verwijder alle schroeven en laat het ophalen door een tweedehands bouwbedrijf (kost je 3 uur extra)</button>
-            </div>
+        <div class="page-inner center-all">
+            <h2>Hierna volgen een aantal vragen</h2>
+            <h3>Geef zo eerlijk mogelijk antwoord, dan werkt Het Geweten het beste.</h3>
+            <button class="btn-primary" onclick="goToPage(4)">
+                Volgende <span class="btn-arrow">→</span>
+            </button>
         </div>
     </div>
 
     <!-- ══════════════════════════════════════
          PAGE 4 — MUUR ERUIT
     ══════════════════════════════════════ -->
+
     <div class="page" id="page-4">
         <div class="page-inner">
-            <span class="question-label">Vraag 4 · 14</span>
-            <h2>De overige recyclebare materialen (schroeven, steenwol, plastic behuizing) die vrij komen...</h2>
+            <span class="question-label">Vraag 1 · 10</span>
 
-            <div class="choice-grid" id="q3-choices">
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q3', 5)">gooi ik in de bouw- en sloopcontainer in mijn straat.</button>
-                <button class="choice-btn" data-value="b"      onclick="selectChoice(this, 'q3', 5)">sorteer ik apart en breng ik zelf naar de milieustraat (dat kost me 3 uur extra).</button>
+            <h3>Je wilt de muur eruit halen. De houten balken zijn te recyclen als de schroeven eruit gehaald worden.</h3>
+            <h3>Wat doe je?</h3>
+
+            <div class="choice-grid" id="q2-choices">
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q2', 5)">Ik gooi het hout weg in de gehuurde bouw- en sloopcontainer</button>
+                <button class="choice-btn" data-value="b"      onclick="selectChoice(this, 'q2', 5)">Ik verwijder alle schroeven en laat het ophalen door een tweedehands bouwbedrijf (kost je 3 uur extra)</button>
             </div>
         </div>
     </div>
 
     <!-- ══════════════════════════════════════
-         PAGE 5 — ecological worldview check
+         PAGE 5 — MUUR ERUIT
     ══════════════════════════════════════ -->
     <div class="page" id="page-5">
         <div class="page-inner">
-            <span class="question-label">Vraag 5 · 14</span>
-            <h2>Welke uitspraak past het best bij jouw persoonlijke waarde? Ik vind het belangrijk..</h2>
+            <span class="question-label">Vraag 2 · 10</span>
+            <h2>De overige recyclebare materialen (schroeven, steenwol, plastic behuizing) die vrij komen...</h2>
 
-            <div class="choice-grid" id="q4-choices">
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q4', 6)">dat ik en mijn dierbare gezond en gelukkig kunnen leven.</button>
-                <button class="choice-btn" data-value="b"      onclick="selectChoice(this, 'q4', 6)">dat alle mensen overal ter wereld (incl. ik en mijn dierbaren) en toekomstige generaties gezond en gelukkig kunnen leven.</button>
-                <button class="choice-btn" data-value="c"      onclick="selectChoice(this, 'q4', 6)">Beide niet van toepassing.</button>
+            <div class="choice-grid" id="q3-choices">
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q3', 6)">gooi ik in de bouw- en sloopcontainer in mijn straat.</button>
+                <button class="choice-btn" data-value="b"      onclick="selectChoice(this, 'q3', 6)">sorteer ik apart en breng ik zelf naar de milieustraat (dat kost me 3 uur extra).</button>
             </div>
         </div>
     </div>
 
-
     <!-- ══════════════════════════════════════
-         PAGE 6 — morality check
+         PAGE 6 — ecological worldview check
     ══════════════════════════════════════ -->
     <div class="page" id="page-6">
         <div class="page-inner">
-            <span class="question-label">Vraag 6 · 14</span>
-            <h2>Vind je dat recyclen moreel gezien het juiste is om te doen?</h2>
+            <span class="question-label">Vraag 3 · 10</span>
+            <h2>Welke uitspraak past het best bij jouw persoonlijke waarde? Ik vind het belangrijk..</h2>
 
-            <div class="yesno-grid">
-                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q5', 7)">
-                    Ja
-                </button>
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q5', 7)">
-                    Nee
-                </button>
+            <div class="choice-grid" id="q4-choices">
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q4', 7)">dat mijn dierbaren en ik gezond en gelukkig kunnen leven.</button>
+                <button class="choice-btn" data-value="b"      onclick="selectChoice(this, 'q4', 7)">dat alle mensen overal ter wereld (incl. mijn dierbaren en ik) en toekomstige generaties gezond en gelukkig kunnen leven.</button>
+                <button class="choice-btn" data-value="c"      onclick="selectChoice(this, 'q4', 7)">Beide niet van toepassing.</button>
             </div>
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         PAGE 7 — environmental identity check
-    ══════════════════════════════════════ -->
 
+    <!-- ══════════════════════════════════════
+         PAGE 7 — morality check
+    ══════════════════════════════════════ -->
     <div class="page" id="page-7">
         <div class="page-inner">
-            <span class="question-label">Vraag 7 · 14</span>
-            <h2>Zou jij een milieubewust persoon willen zijn?</h2>
+            <span class="question-label">Vraag 4 · 10</span>
+            <h2>Vind je dat recyclen moreel gezien het juiste is om te doen?</h2>
 
             <div class="yesno-grid">
-                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q6', 8)">
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q5', 8)">
                     Ja
                 </button>
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q6', 8)">
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q5', 8)">
                     Nee
                 </button>
             </div>
@@ -189,31 +179,14 @@
 
     <div class="page" id="page-8">
         <div class="page-inner">
-            <span class="question-label">Vraag 8 · 14</span>
-            <h2>Ik weet dat wanneer we niet recyclen, dit bijdraagt aan klimaatverandering met gevolgen als extreme droogte en overstromingen, voedsel- en waterschaarste, onleefbare leefomstandigheden en gedwongen massamigratie. </h2>
-
-            <div class="choice-grid" id="q7-choices">
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q7', 9)">Ik wist dit niet</button>
-                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q7', 9)">Ik wist dit wel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ══════════════════════════════════════
-         PAGE 9 — Threat appraisal/vulnerability check
-    ══════════════════════════════════════ -->
-
-
-    <div class="page" id="page-9">
-        <div class="page-inner">
-            <span class="question-label">Vraag 9 · 14</span>
-            <h2>Ik maak me zorgen over de gevolgen van klimaatverandering.</h2>
+            <span class="question-label">Vraag 5 · 10</span>
+            <h2>Zou jij een milieubewust persoon willen zijn?</h2>
 
             <div class="yesno-grid">
-                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q8', 10)">
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q6', 9)">
                     Ja
                 </button>
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q8', 10)">
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q6', 9)">
                     Nee
                 </button>
             </div>
@@ -221,73 +194,123 @@
     </div>
 
     <!-- ══════════════════════════════════════
-         PAGE 10 — outcome efficacy check
+         PAGE 9 — environmental identity check
+    ══════════════════════════════════════ -->
+
+    <div class="page" id="page-9">
+        <div class="page-inner">
+            <span class="question-label">Vraag 6 · 10</span>
+            <h2>Ik weet dat wanneer we niet recyclen, dit bijdraagt aan klimaatverandering met gevolgen als extreme droogte en overstromingen, voedsel- en waterschaarste, onleefbare leefomstandigheden en gedwongen massamigratie. </h2>
+
+            <div class="choice-grid" id="q7-choices">
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q7', 10)">Ik wist dit niet</button>
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q7', 10)">Ik wist dit wel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PAGE 10 — Threat appraisal/vulnerability check
     ══════════════════════════════════════ -->
 
 
     <div class="page" id="page-10">
         <div class="page-inner">
-            <span class="question-label">Vraag 10 · 14</span>
-            <h2>Als ik niet recycle, draag ik bij aan de negatieve gevolgen van klimaatverandering.</h2>
+            <span class="question-label">Vraag 7 · 10</span>
+            <h2>Ik maak me zorgen over de gevolgen van klimaatverandering.</h2>
 
             <div class="yesno-grid">
-                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q9', 11)">
-                    Klopt
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q8', 11)">
+                    Ja
                 </button>
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q9', 11)">
-                    Niet waar
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q8', 11)">
+                    Nee
                 </button>
             </div>
         </div>
     </div>
 
-
     <!-- ══════════════════════════════════════
-         PAGE 11 — Ascription of responsibilty check
+         PAGE 11 — outcome efficacy check
     ══════════════════════════════════════ -->
+
 
     <div class="page" id="page-11">
         <div class="page-inner">
-            <span class="question-label">Vraag 11 · 14</span>
-            <h2>Ondanks dat bedrijven en de politiek verantwoordelijkheid moeten nemen rondom afvalproductie en verwerking, heb ik als individu ook een verantwoordelijkheid om te recyclen</h2>
+            <span class="question-label">Vraag 8 · 10</span>
+            <h2>Als ik niet recycle, draag ik bij aan de negatieve gevolgen van klimaatverandering.</h2>
 
             <div class="yesno-grid">
-                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q10', 12)">
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q9', 12)">
                     Klopt
                 </button>
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q10', 12)">
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q9', 12)">
                     Niet waar
                 </button>
             </div>
         </div>
     </div>
 
+
     <!-- ══════════════════════════════════════
-    PAGE 12 — Perceived behavioral control check
+         PAGE 12 — Ascription of responsibilty check
     ══════════════════════════════════════ -->
 
     <div class="page" id="page-12">
         <div class="page-inner">
-            <span class="question-label">Vraag 12 · 14</span>
-            <h2>Heb je het idee dat je niet genoeg tijd hebt om te recyclen?</h2>
+            <span class="question-label">Vraag 9 · 10</span>
+            <h2>Ondanks dat bedrijven en de politiek verantwoordelijkheid moeten nemen rondom afvalproductie en verwerking, heb ik als individu ook een verantwoordelijkheid om te recyclen.</h2>
 
-            <div class="choice-grid" id="q11-choices">
-                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q11', 13)">Ik heb niet genoeg tijd</button>
-                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q11', 13)">Ik heb wel genoeg tijd</button>
-                <button class="choice-btn" data-value="c"       onclick="selectChoice(this, 'q11', 13)">Ik heb wel genoeg tijd maar ik doe het alsnog niet.</button>
+            <div class="yesno-grid">
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q10', 13)">
+                    Klopt
+                </button>
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q10', 13)">
+                    Niet waar
+                </button>
             </div>
         </div>
     </div>
 
     <!-- ══════════════════════════════════════
-    PAGE 13 — Recording audio + final submit
+    PAGE 13 — Perceived behavioral control check
     ══════════════════════════════════════ -->
 
     <div class="page" id="page-13">
         <div class="page-inner">
-            <span class="question-label">Vraag 13 · 14</span>
-            <h2>Spreek de volgende zin in:</h2>
-            <blockquote class="quote-text">"We zijn gisteren begonnen met de verbouwing van het oude huis. Overal lagen planken, stenen en ander bouwafval. "Waar moeten we dit allemaal laten?” vroeg ik. De aannemer wees naar buiten en zei: “Daar staat de container!” "Wat een rommel!", dacht ik. Maar straks wordt het prachtig, toch?" </blockquote>
+            <span class="question-label">Vraag 10 · 10</span>
+            <h2>Heb je het idee dat je niet genoeg tijd hebt om te recyclen?</h2>
+
+            <div class="choice-grid" id="q11-choices">
+                <button class="choice-btn" data-value="a"       onclick="selectChoice(this, 'q11', 14)">Ik heb niet genoeg tijd</button>
+                <button class="choice-btn" data-value="b"       onclick="selectChoice(this, 'q11', 14)">Ik heb wel genoeg tijd</button>
+                <button class="choice-btn" data-value="c"       onclick="selectChoice(this, 'q11', 14)">Ik heb wel genoeg tijd maar ik doe het alsnog niet.</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+    PAGE 14 — BRIEFJE INSTRUCTIE
+    ══════════════════════════════════════ -->
+
+    <div class="page" id="page-14">
+        <div class="page-inner">
+            <h2>Volg de pijl naar het raam. <br>Achter het kamerscherm ligt een briefje met onderstaande tekst:</h2>
+            <blockquote class="quote-text">"We zijn gisteren begonnen met de verbouwing van het oude huis. Overal lagen planken, stenen en ander bouwafval.<br> "Waar moeten we dit allemaal laten?” vroeg ik. De aannemer wees naar buiten en zei: “Daar staat de container!”<br> "Wat een rommel!", dacht ik. Maar straks wordt het prachtig, toch?" </blockquote>
+
+            <button class="btn-primary" onclick="goToPage(15)">
+                Volgende <span class="btn-arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+    PAGE 15 — Recording audio + final submit
+    ══════════════════════════════════════ -->
+
+    <div class="page" id="page-15">
+        <div class="page-inner">
+            <h2>Druk op START <br>Spreek de tekst op het briefje hardop uit <br> Druk daarna op STOP en klik op Versturen.</h2>
 
             <div class="recorder">
                 <!-- Status ring -->
@@ -298,17 +321,17 @@
 
                 <div class="recorder-controls">
                     <button class="btn-record start" id="startRecordBtn" onclick="startRecording()">
-                        ● Start
+                        ● START
                     </button>
                     <button class="btn-record stop" id="stopRecordBtn" onclick="stopRecording()" disabled>
-                        ■ Stop
+                        ■ STOP
                     </button>
                 </div>
 
                 <!-- Playback + waveform placeholder -->
                 <div class="audio-playback" id="audioPlaybackSection" style="display:none">
                     <audio id="audioPlayback" controls></audio>
-                    <p class="audio-hint">Beluister je opname hierboven</p>
+                    <!-- <p class="audio-hint">Beluister je opname hierboven</p> -->
                 </div>
             </div>
 
@@ -322,12 +345,12 @@
     </div>
 
     <!-- ══════════════════════════════════════
-    PAGE 14 — MIRROR MOMENT
+    PAGE 16 — MIRROR MOMENT
     ══════════════════════════════════════ -->
-    <div class="page" id="page-14">
+    <div class="page" id="page-16">
         <div class="page-inner center-all">
             <div class="tts-icon">🪞</div>
-            <h2>Loop nu naar de spiegels, druk op play op onderstaand audiofragment en kijk jezelf aan in de spiegel</h2>
+            <h2>Loop nu naar de spiegels, <br> druk op PLAY en kijk jezelf aan in de spiegel.</h2>
 
             <button class="btn-primary mirror-play-btn" id="mirrorPlayBtn" onclick="playMirrorMoment()">
                 ▶ Afspelen
@@ -335,51 +358,60 @@
 
             <audio id="mirrorAudio" src="{{ url_for('static', filename='audio/spiegelmoment.mp3') }}"></audio>
 
-            <button class="btn-primary" id="mirrorNextBtn" style="display:none" onclick="goToPage(15)">
+            <button class="btn-primary" id="mirrorNextBtn" style="display:none" onclick="goToPage(17)">
                 Doorgaan <span class="btn-arrow">→</span>
             </button>
         </div>
     </div>
 
     <!-- ══════════════════════════════════════
-    PAGE 15 — TTS PLAYBACK
+    PAGE 17 — TTS PLAYBACK
     ══════════════════════════════════════ -->
-    <div class="page" id="page-15">
+    <div class="page" id="page-17">
         <div class="page-inner center-all">
-            <div class="tts-icon">🎧</div>
-            <h2>Ga nu ergens zitten en luister naar het audiofragment</h2>
-            <p class="consent-lead">Een ogenblik geduld…</p>
-
             <div class="tts-loading" id="ttsLoadingMsg">
                 <div class="tts-spinner"></div>
-                <p>Audio wordt gegenereerd…</p>
+                <p>Het Geweten wordt gegenereerd…</p>
             </div>
 
-            <p class="tts-ready-msg" id="ttsReadyMsg" style="display:none">
-                Ga nu ergens zitten en luister naar het audiofragment.
-            </p>
+            <div id="ttsReadyMsg" style="display:none">
+                <h2>Ga nu zitten op een van de rode stoelen, <br>druk op PLAY en doe je ogen dicht en luister.</h2>
 
-            <audio id="ttsAudioPlayer" controls style="display:none; width:100%;"></audio>
+                <button class="btn-primary mirror-play-btn" id="ttsPlayBtn" onclick="playTtsAudio()">
+                    ▶ Afspelen
+                </button>
+
+                <audio id="ttsAudioPlayer"></audio>
+            </div>
 
             <div id="ttsMockWrap" class="tts-mock-wrap">
                 <pre id="ttsMockAnswers" class="tts-mock-panel answers"></pre>
                 <pre id="ttsMockText" class="tts-mock-panel text"></pre>
             </div>
 
-            <button class="btn-primary" id="ttsNextBtn" style="display:none" onclick="goToPage(16)">
+            <button class="btn-primary" id="ttsNextBtn" style="display:none" onclick="goToPage(18)">
                 Doorgaan <span class="btn-arrow">→</span>
             </button>
         </div>
     </div>
 
     <!-- ══════════════════════════════════════
-    PAGE 16 — THANK YOU
+    PAGE 18 — THANK YOU
     ══════════════════════════════════════ -->
-    <div class="page" id="page-16">
+    <div class="page" id="page-18">
         <div class="page-inner center-all">
             <div class="thankyou-icon">🎉</div>
-            <h1>Bedankt!</h1>
-            <p class="consent-lead">Dankjewel voor je deelname.</p>
+            <h1>Dank dat je meedeed!</h1>
+
+            <p class="consent-lead">Heeft dit een bepaalde emotie, zoals irritatie, verwondering of angst bij je opgeroepen? Wij horen graag over je ervaring! <br> Laat je e-mailadres achter als je persoonlijk benaderd wilt worden.</p>
+
+            <textarea class="text-input" id="feedbackEmotion" rows="4" placeholder="Vertel hier wat het met je deed…"></textarea>
+            <input class="text-input" type="email" id="feedbackEmail" placeholder="jouw@email.nl (optioneel)" autocomplete="email">
+
+            <button class="btn-primary" id="feedbackSubmitBtn" onclick="submitFeedback()">
+                Versturen <span class="btn-arrow">✓</span>
+            </button>
+            <p class="tts-ready-msg" id="feedbackThanks" style="display:none">Bedankt voor je reactie!</p>
         </div>
     </div>
 

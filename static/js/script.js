@@ -111,6 +111,18 @@ function selectChoice(btn, questionKey, nextPage) {
     setTimeout(() => goToPage(nextPage), 350);
 }
 
+// ── Last question: same as selectChoice, but this answer triggers
+// the actual submission (recording already happened earlier) ──────
+function selectFinalChoice(btn, questionKey) {
+    const container = btn.parentElement;
+    container.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+
+    btn.classList.add('selected');
+    answers[questionKey] = btn.getAttribute('data-value') || btn.textContent.trim();
+
+    setTimeout(() => submitSurvey(), 350);
+}
+
 // ── Audio recording ────────────────────
 async function startRecording() {
     try {

@@ -4,7 +4,7 @@
 
 // ── State ──────────────────────────────
 const answers     = {};
-const TOTAL_PAGES = 19; // pages 1-18 (0 = consent)
+const TOTAL_PAGES = 23; // pages 1-22 (0 = consent)
 
 let currentPage   = 0;
 let mediaRecorder = null;
@@ -235,7 +235,7 @@ async function submitSurvey() {
 
     // Go to the mirror-moment page immediately — TTS generates in the
     // background (see below) while that fragment plays
-    goToPage(17);
+    goToPage(21);
 
     try {
         const res  = await fetch('/submit', { method: 'POST', body: formData });
@@ -297,6 +297,32 @@ async function submitFeedback() {
 
     document.getElementById('feedbackThanks').style.display = 'block';
 }
+
+// ── Shrink-to-fit text (.fit-line) ─────
+// CSS clamp() can only guess at font-size from viewport width — it doesn't
+// know how long a specific sentence is. This measures the actual rendered
+// width and shrinks the font just enough to keep it on one line, instead of
+// letting the last word or two wrap onto their own line.
+function fitTextLines() {
+    document.querySelectorAll('.fit-line').forEach(el => {
+        el.style.fontSize = ''; // reset to the CSS value before re-measuring
+        const available = el.parentElement.clientWidth;
+        let fontSize = parseFloat(getComputedStyle(el).fontSize);
+        const minFontSize = fontSize * 0.6; // don't shrink below 60% of the original
+
+        while (el.scrollWidth > available && fontSize > minFontSize) {
+            fontSize -= 0.5;
+            el.style.fontSize = fontSize + 'px';
+        }
+    });
+}
+
+window.addEventListener('load', fitTextLines);
+let fitLineResizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(fitLineResizeTimer);
+    fitLineResizeTimer = setTimeout(fitTextLines, 150);
+});
 
 // ── Init ───────────────────────────────
 updateProgress();

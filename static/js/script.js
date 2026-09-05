@@ -135,12 +135,8 @@ async function startRecording() {
         };
 
         mediaRecorder.onstop = () => {
-            audioBlob     = new Blob(audioChunks, { type: 'audio/webm' });
-            const url     = URL.createObjectURL(audioBlob);
-
-            document.getElementById('audioPlayback').src             = url;
-            document.getElementById('audioPlaybackSection').style.display = 'flex';
-            document.getElementById('nextBtn13').disabled             = false;
+            audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            document.getElementById('nextBtn13').disabled = false;
 
             // Hide the "you must record first" hint
             const hint = document.getElementById('recordRequired');
@@ -179,7 +175,7 @@ function setRecorderUI(isRecording) {
         stopBtn.disabled   = false;
     } else {
         ring.classList.remove('recording');
-        status.textContent = '✅ Opname opgeslagen – beluister hieronder';
+        status.textContent = '✅ Opname opgeslagen';
         startBtn.disabled  = false;
         stopBtn.disabled   = true;
     }

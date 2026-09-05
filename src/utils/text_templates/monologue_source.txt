@@ -80,12 +80,12 @@ PAUZE-2
 3. Weerleggen
 PAUZE-3  
 (Fixed) Hé, kom op (Naam), als iedereen zo denkt dan zal er zeker niets veranderen.. En dragen we allemaal bij aan het uitbreken van een milieucrisis,
-(4=a) en daarmee de toekomst van onszelf en onze dierbaren op het spel zetten.
+(4=a) en daarmee zet ik dan uiteindelijk de toekomst van mezelf en mijn dierbaren op het spel. Dat wil ik helemaal niet.
 (4=b) die het leven van miljoenen mensen wereldwijd ernstig bedreigt en ervoor zorgt dat toekomstige generaties in een onleefbare wereld komen te leven.
 (4=c) [niets]
 PAUZE-2  
 (Fixed) Hè, gadver! Ik heb helemaal geen zin om daarover na te denken. Maar goed ja, shit.. ik kan er wel van blijven wegkijken, maar ik vind het toch ook wel echt belangrijk, dat
-(4=a) mijn dierbaren en ik een gezond en gelukkig leven kunnen blijven leiden
+(4=a) we een gezond en gelukkig leven kunnen blijven leiden samen
 (4=b) alle mensen ongeacht waar ze wonen en wanneer ze geboren worden, gezond en gelukkig kunnen leven.
 (4=c) [niets]
  

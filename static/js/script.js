@@ -217,8 +217,9 @@ function playTtsAudio() {
         nextBtn.style.display = 'flex'; // don't strand the user if playback fails
     });
 
-    audio.onended = () => { nextBtn.style.display = 'flex'; };
-    audio.onerror = () => { nextBtn.style.display = 'flex'; };
+    // Move on automatically once Het Geweten has finished playing
+    audio.onended = () => { goToPage(23); };
+    audio.onerror = () => { nextBtn.style.display = 'flex'; }; // fallback if playback fails
 }
 
 // ── Submit + kick off TTS ──────────────
